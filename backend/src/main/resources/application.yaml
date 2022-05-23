@@ -1,0 +1,6 @@
+server:
+  port: 8080
+
+keycloak:
+  realm: spring-boot-quickstart
+  auth-server-url:
