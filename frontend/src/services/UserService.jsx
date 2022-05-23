@@ -9,14 +9,18 @@ const initKeycloak = (onAuthenticatedCallback) => {
     console.log(_kc);
     console.log("keycloak-start")
     _kc.init({
-        onLoad: 'login-required',
-        silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html',
-        pkceMethod: 'S256',
+        onLoad: 'check-sso'
     })
         .then((authenticated) => {
+            if (!authenticated) {
+                console.log("user is not authenticated..!");
+            }
             onAuthenticatedCallback();
         })
-        .catch(console.error);
+        .catch((error) => {
+            console.log("에러")
+            console.log(error)
+        });
     console.log("keycloak-end")
 };
 
