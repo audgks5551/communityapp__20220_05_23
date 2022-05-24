@@ -2,5 +2,41 @@ server:
   port: 8080
 
 keycloak:
-  realm: spring-boot-quickstart
-  auth-server-url:
+  enabled: true
+  realm: springboot-test
+  auth-server-url: https://auth.kube.itseasy.site
+  ssl-required: external
+  resource: springboot
+  use-resource-role-mappings: true
+  security-constraints[0]:
+    authRoles[0]: user
+    authRoles[1]: admin
+    authRoles[2]: manager
+    securityCollections[0]:
+      name: test
+      patterns[0]: /test
+  verify-token-audience: true
+  confidential-port: 0
+  bearer-only: true
+  cors: true
+
+spring:
+  thymeleaf:
+    enabled: true
+    prefix: classpath:templates/
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDB53Dialect
+
+---
+
+spring:
+  profiles:
+    active: prod
+
+---
+
+spring:
+  profiles:
+    active: local
