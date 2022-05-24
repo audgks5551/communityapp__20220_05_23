@@ -6,10 +6,11 @@ import Keycloak from "keycloak-js";
 const _kc = new Keycloak("/keycloak.json");
 
 const initKeycloak = (onAuthenticatedCallback) => {
-    console.log(_kc);
-    console.log("keycloak-start")
     _kc.init({
-        onLoad: 'check-sso'
+        onLoad: 'check-sso',
+        silentCheckSsoRedirectUri: window.location.origin + '/index.html',
+        pkceMethod: 'S256',
+        checkLoginIframe: false
     })
         .then((authenticated) => {
             if (!authenticated) {
@@ -17,16 +18,14 @@ const initKeycloak = (onAuthenticatedCallback) => {
             }
             onAuthenticatedCallback();
         })
-        .catch((error) => {
-            console.log("에러")
-            console.log(error)
-        });
-    console.log("keycloak-end")
+        .catch(console.error);
 };
 
 const doLogin = _kc.login;
 
 const doLogout = _kc.logout;
+
+const doSignup = _kc.register;
 
 const getToken = () => _kc.token;
 
@@ -37,13 +36,17 @@ const updateToken = (successCallback) =>
         .then(successCallback)
         .catch(doLogin);
 
+const getNickName = () => _kc.tokenParsed.family_name + _kc.tokenParsed.given_name;
+
 const UserService = {
     initKeycloak,
     isLoggedIn,
     getToken,
     doLogin,
     doLogout,
-    updateToken
+    updateToken,
+    getNickName,
+    doSignup
 };
 
 export default UserService;

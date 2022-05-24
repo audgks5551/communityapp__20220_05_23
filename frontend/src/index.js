@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import UserService from "./services/UserService";
+import UserService from "./libs/UserService";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const render = () => root.render(
