@@ -3,30 +3,35 @@ package com.example.backend.article.entity;
 import com.example.backend.base.entity.DateManagement;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
-import static javax.persistence.GenerationType.IDENTITY;
+import java.util.UUID;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @Table(name = "articles")
 public class Article extends DateManagement {
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "article_id", nullable = false)
-    private Long id;
 
-    @Column(nullable = false)
+    @Id
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "article_id", columnDefinition = "BINARY(16)")
+    private UUID id;
+
+    @Setter
+    @Column(nullable = false, length = 20)
     private String title;
 
+    @Lob
+    @Setter
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false, unique = true)
-    private String articleId;
-
-    @Column(nullable = false)
-    private String userId;
+    @Setter
+    @Column(name = "user_id", columnDefinition = "BINARY(16)", nullable = false)
+    private UUID userId;
 }

@@ -1,0 +1,22 @@
+server:
+  port: 9999
+
+spring:
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+    hibernate:
+      ddl-auto: create-drop
+    defer-datasource-initialization: true # error => `Database is already closed`
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true # error => `Sorry, remote connections ('webAllowOthers') are disabled on this server.`
+      path: /h2-console
