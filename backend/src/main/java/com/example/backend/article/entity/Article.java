@@ -23,7 +23,7 @@ public class Article extends DateManagement {
     private UUID id;
 
     @Setter
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false)
     private String title;
 
     @Lob
