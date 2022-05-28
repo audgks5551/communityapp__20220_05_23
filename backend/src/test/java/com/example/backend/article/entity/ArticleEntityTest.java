@@ -7,21 +7,20 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
-
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 public class ArticleEntityTest {
-
     @Autowired
     ArticleRepository articleRepository;
 
     Article article;
     UUID uuid;
     @BeforeEach
-    public void start() {
+    public void init() {
+
         uuid = UUID.randomUUID();
         article = new Article();
         article.setTitle("title");
@@ -30,7 +29,7 @@ public class ArticleEntityTest {
     }
 
     @AfterEach
-    public void end() {
+    public void finish() {
         articleRepository.deleteAll();
     }
 

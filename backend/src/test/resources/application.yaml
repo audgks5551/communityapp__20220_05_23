@@ -3,15 +3,20 @@ server:
 
 spring:
   jpa:
+    database-platform: org.hibernate.dialect.MariaDB53Dialect
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.MariaDB53Dialect
         show_sql: true
         format_sql: true
         use_sql_comments: true
     hibernate:
-      ddl-auto: create-drop
-    defer-datasource-initialization: true # error => `Database is already closed`
+      ddl-auto: create
   datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://127.0.0.1:3306/keycloak_test?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&allowPublicKeyRetrieval=true
     username: testuser
     password: 5678
+
+
+#    defer-datasource-initialization: true # error => `Database is already closed`
