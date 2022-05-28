@@ -9,7 +9,7 @@ spring:
         format_sql: true
         use_sql_comments: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
     defer-datasource-initialization: true # error => `Database is already closed`
   datasource:
     url: jdbc:mariadb://127.0.0.1:3306/keycloak_test?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&allowPublicKeyRetrieval=true

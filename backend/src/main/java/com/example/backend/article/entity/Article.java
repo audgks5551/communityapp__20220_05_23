@@ -23,13 +23,13 @@ public class Article extends DateManagement {
     private UUID id;
 
     @Setter
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String title;
 
     @Lob
     @Setter
     @Column(nullable = false)
-    private String content;
+    private String body;
 
     @Setter
     @Column(name = "user_id", columnDefinition = "BINARY(16)", nullable = false)

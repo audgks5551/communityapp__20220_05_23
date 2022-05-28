@@ -1,30 +1,41 @@
 package com.example.backend.article.entity;
 
 import com.example.backend.article.repository.ArticleRepository;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import javax.transaction.Transactional;
+import org.springframework.dao.InvalidDataAccessResourceUsageException;
 
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
-@Transactional
 public class ArticleEntityTest {
 
     @Autowired
     ArticleRepository articleRepository;
 
+    Article article;
+    UUID uuid;
+    @BeforeEach
+    public void start() {
+        uuid = UUID.randomUUID();
+        article = new Article();
+        article.setTitle("title");
+        article.setBody("content");
+        article.setUserId(uuid);
+    }
+
+    @AfterEach
+    public void end() {
+        articleRepository.deleteAll();
+    }
+
     @Test
     public void 게시글_생성() {
-        UUID uuid = UUID.randomUUID();
-        Article article = new Article();
-        article.setTitle("title");
-        article.setContent("content");
-        article.setUserId(uuid);
 
         Article savedArticle = articleRepository.save(article);
 
@@ -33,5 +44,21 @@ public class ArticleEntityTest {
         assertThat(savedArticle.getId()).isNotNull(); // id null 확인
         assertThat(savedArticle.getCreatedDate()).isNotNull(); // created null 확인
         assertThat(savedArticle.getModifiedDate()).isNotNull(); // modified null 확인
+    }
+
+    @Test
+    public void title_길이_확인() {
+        article.setTitle(getTitle());
+
+        assertThatThrownBy(() -> articleRepository.save(article))
+                .isInstanceOf(InvalidDataAccessResourceUsageException.class);
+    }
+
+    private String getTitle() {
+        String title = "";
+        for (int i=0; i<51; i++) {
+            title += "가";
+        }
+        return title;
     }
 }
