@@ -19,6 +19,7 @@ const initKeycloak = (onAuthenticatedCallback) => {
             onAuthenticatedCallback();
         })
         .catch(console.error);
+    console.log(_kc)
 };
 
 const doLogin = _kc.login;

@@ -2,6 +2,7 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Home from "./pages/Home";
 import "./styles/tw.output.css";
 import ArticleList from "./pages/article/list";
+import CreateArticle from "./pages/article/create";
 
 function App() {
 
@@ -9,7 +10,8 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route index element={<Home />} />
-                <Route path="/article/list" element={<ArticleList />} />
+                <Route path="/article" element={<ArticleList />} />
+                <Route path="/article/new" element={<CreateArticle />} />
             </Routes>
         </BrowserRouter>
     );

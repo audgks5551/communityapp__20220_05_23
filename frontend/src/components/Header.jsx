@@ -14,7 +14,8 @@ export default function Header() {
             <div className="flex justify-between px-20 py-5">
                 <div className="space-x-8">
                     <Link to="/" ><span className="text-2xl">Article</span></Link>
-                    <Link to="/article/list"><span className="text-lg select-none">list</span></Link>
+                    <Link to="/article"><span className="text-lg select-none">list</span></Link>
+                    <Link to="/article/new"><span className="text-lg select-none">create</span></Link>
                 </div>
                 <div className="flex space-x-4 items-center">
                     <RenderOnAnonymous>

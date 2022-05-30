@@ -17,15 +17,16 @@ public class ArticleEntityTest {
     ArticleRepository articleRepository;
 
     Article article;
-    UUID uuid;
+    String userId;
+    String articleId;
     @BeforeEach
     public void init() {
-
-        uuid = UUID.randomUUID();
+        userId = UUID.randomUUID().toString();
         article = new Article();
         article.setTitle("title");
         article.setBody("content");
-        article.setUserId(uuid);
+        article.setArticleId(articleId);
+        article.setUserId(userId);
     }
 
     @AfterEach
@@ -39,7 +40,7 @@ public class ArticleEntityTest {
         Article savedArticle = articleRepository.save(article);
 
         assertThat(savedArticle).isSameAs(article); // 같은 객체 확인
-        assertThat(savedArticle.getUserId().toString()).isEqualTo(uuid.toString()); // uuid 같은지 확인
+        assertThat(savedArticle.getUserId().toString()).isEqualTo(userId.toString()); // uuid 같은지 확인
         assertThat(savedArticle.getId()).isNotNull(); // id null 확인
         assertThat(savedArticle.getCreatedDate()).isNotNull(); // created null 확인
         assertThat(savedArticle.getModifiedDate()).isNotNull(); // modified null 확인

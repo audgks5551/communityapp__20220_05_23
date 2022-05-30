@@ -10,6 +10,8 @@ import javax.persistence.*;
 
 import java.util.UUID;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -17,10 +19,8 @@ import java.util.UUID;
 public class Article extends DateManagement {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "article_id", columnDefinition = "BINARY(16)")
-    private UUID id;
+    @GeneratedValue(strategy = IDENTITY)
+    private Long id;
 
     @Setter
     @Column(nullable = false, length = 50)
@@ -32,6 +32,10 @@ public class Article extends DateManagement {
     private String body;
 
     @Setter
-    @Column(name = "user_id", columnDefinition = "BINARY(16)", nullable = false)
-    private UUID userId;
+    @Column(name = "article_id", columnDefinition = "VARCHAR(36)")
+    private String articleId;
+
+    @Setter
+    @Column(name = "user_id", columnDefinition = "VARCHAR(36)", nullable = false)
+    private String userId;
 }

@@ -43,7 +43,7 @@ public class ArticleServiceTest {
 
         articleDTO.setTitle("title");
         articleDTO.setBody("content");
-        articleDTO.setUserId(UUID.randomUUID());
+        articleDTO.setUserId(UUID.randomUUID().toString());
 
         article = modelMapper.map(articleDTO, Article.class);
     }

@@ -13,8 +13,13 @@ keycloak:
     authRoles[1]: admin
     authRoles[2]: manager
     securityCollections[0]:
-      name: test
+      name: test1
       patterns[0]: /test
+  security-constraints[1]:
+    authRoles[0]: user
+    securityCollections[0]:
+      name: test2
+      patterns[0]: /article
   verify-token-audience: true
   confidential-port: 0
   bearer-only: true
