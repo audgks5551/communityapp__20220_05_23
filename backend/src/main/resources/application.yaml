@@ -34,6 +34,19 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MariaDB53Dialect
 
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: swagger-ui-custom.html
+    operationsSorter: method #alpha or method
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
 ---
 
 spring:

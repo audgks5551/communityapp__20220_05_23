@@ -1,4 +1,4 @@
-package com.example.backend.article.vo;
+package com.example.backend.article.response;
 
 import com.toedter.spring.hateoas.jsonapi.JsonApiId;
 import com.toedter.spring.hateoas.jsonapi.JsonApiTypeForClass;

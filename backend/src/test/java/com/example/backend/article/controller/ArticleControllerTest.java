@@ -2,7 +2,7 @@ package com.example.backend.article.controller;
 
 import com.example.backend.article.dto.ArticleDTO;
 import com.example.backend.article.service.ArticleServiceImpl;
-import com.example.backend.article.vo.RequestCreateArticle;
+import com.example.backend.article.form.CreateArticleForm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.keycloak.KeycloakPrincipal;
@@ -46,7 +46,7 @@ public class ArticleControllerTest {
         KeycloakPrincipal mockPrincipal = Mockito.mock(KeycloakPrincipal.class);
         Mockito.when(mockPrincipal.getName()).thenReturn(uuid);
 
-        RequestCreateArticle request = new RequestCreateArticle("title", "body");
+        CreateArticleForm request = new CreateArticleForm("title", "body");
 
         ArticleDTO articleDTO = new ArticleDTO();
         articleDTO.setArticleId(UUID.randomUUID().toString());
