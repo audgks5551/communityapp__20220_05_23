@@ -3,29 +3,24 @@ package com.example.backend.article.controller;
 import com.example.backend.article.dto.ArticleDTO;
 import com.example.backend.article.service.ArticleService;
 import com.example.backend.article.vo.RequestCreateArticle;
+import com.example.backend.article.vo.ResponseArticle;
+import com.example.backend.article.vo.ResponseUser;
+import com.toedter.spring.hateoas.jsonapi.JsonApiModelBuilder;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.KeycloakPrincipal;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.util.UUID;
+import java.net.URI;
+import java.util.Optional;
 
-import static com.example.backend.base.http.MediaType.*;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static com.toedter.spring.hateoas.jsonapi.MediaTypes.JSON_API_VALUE;
 
 @RestController
-@RequestMapping(
-        value = "/article",
-        headers = "version=v1",
-        consumes = { APPLICATION_JSON_VALUE, APPLICATION_VND_JSON_VALUE },
-        produces = { APPLICATION_JSON_VALUE, APPLICATION_VND_JSON_VALUE }
-)
+@RequestMapping(value = "api/articles", headers = "version=v1", produces = JSON_API_VALUE)
 @RequiredArgsConstructor
 public class ArticleController {
 
@@ -33,15 +28,27 @@ public class ArticleController {
     private final ModelMapper mapper;
 
     @PostMapping
-    public ResponseEntity createArticle(
-            @Valid @RequestBody RequestCreateArticle requestCreateArticle, KeycloakPrincipal user) {
+    public ResponseEntity<?> createArticle(
+            @RequestBody @Valid RequestCreateArticle articleForm, KeycloakPrincipal user) {
 
-        ArticleDTO articleDTO = mapper.map(requestCreateArticle, ArticleDTO.class);
-        articleDTO.setUserId(user.getName());
+        ResponseArticle article = articleService.createArticle(
+                Optional.of(articleForm)
+                        .map(form -> {
+                            ArticleDTO dto = mapper.map(form, ArticleDTO.class);
+                            dto.setUserId(user.getName());
+                            return dto;
+                        }).get()
+                )
+                .map(dto -> mapper.map(dto, ResponseArticle.class)).get();
 
-        ArticleDTO savedArticleDTO = articleService.createArticle(articleDTO);
+        URI currentURI = ServletUriComponentsBuilder.fromCurrentRequestUri().build().toUri();
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.created(currentURI).body(
+                JsonApiModelBuilder.jsonApiModel()
+                        .model(article)
+                        .relationship("author", new ResponseUser(user.getName()))
+                        .build()
+        );
     }
 
     @GetMapping("/test")

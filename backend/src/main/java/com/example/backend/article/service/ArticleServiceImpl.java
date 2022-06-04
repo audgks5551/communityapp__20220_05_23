@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -20,13 +21,14 @@ public class ArticleServiceImpl implements ArticleService {
      * article create service
      */
     @Override
-    public ArticleDTO createArticle(ArticleDTO articleDTO) {
+    public Optional<ArticleDTO> createArticle(ArticleDTO articleDTO) {
         Article article = mapper.map(articleDTO, Article.class);
         article.setArticleId(UUID.randomUUID().toString());
 
         articleRepository.save(article);
 
         ArticleDTO savedArticleDTO = mapper.map(article, ArticleDTO.class);
-        return savedArticleDTO;
+
+        return Optional.ofNullable(savedArticleDTO);
     }
 }

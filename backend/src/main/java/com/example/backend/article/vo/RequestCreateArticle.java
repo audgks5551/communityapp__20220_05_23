@@ -2,21 +2,21 @@ package com.example.backend.article.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Getter
-@Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class RequestCreateArticle {
-    @NotNull(message = "Title cannot be null")
-    @Length(max = 50, message = "Title must be up to 50 characters long")
-    @Length(min = 1, message = "Title must be at least one character")
+    @NotNull(message = "title을 입력해주세요")
+    @Size(max = 50, message = "title은 최대 50글자 입니다")
+    @Size(min = 1, message = "title은 최소 1글자 입니다")
     private String title;
 
-    @NotNull(message = "Body cannot be null")
-    @Length(min = 1, message = "Body must be at least one character")
+    @NotNull(message = "body를 입력해주세요")
+    @Size(min = 1, message = "body는 최소 1글자입니다")
     private String body;
 }

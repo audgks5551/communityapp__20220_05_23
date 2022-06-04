@@ -4,11 +4,8 @@ import com.example.backend.base.entity.DateManagement;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-
-import java.util.UUID;
 
 import static javax.persistence.GenerationType.IDENTITY;
 

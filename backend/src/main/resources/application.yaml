@@ -19,7 +19,7 @@ keycloak:
     authRoles[0]: user
     securityCollections[0]:
       name: test2
-      patterns[0]: /article
+      patterns[0]: /api/*
   verify-token-audience: true
   confidential-port: 0
   bearer-only: true

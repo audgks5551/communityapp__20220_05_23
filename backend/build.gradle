@@ -43,10 +43,15 @@ dependencies {
 	 */
 	implementation 'org.keycloak:keycloak-test-helper:18.0.0'
 
-	/**
-	 * validation
-	 */
 	implementation 'org.springframework.boot:spring-boot-starter-validation:2.7.0'
+
+	/**
+	 * spring boot starter hateoas
+	 */
+	implementation 'org.springframework.boot:spring-boot-starter-hateoas:2.7.0'
+
+	implementation 'com.toedter:spring-hateoas-jsonapi:1.5.0'
+
 }
 
 tasks.named('test') {

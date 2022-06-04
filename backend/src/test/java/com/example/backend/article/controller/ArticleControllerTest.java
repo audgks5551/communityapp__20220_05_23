@@ -48,7 +48,6 @@ public class ArticleControllerTest {
 
         RequestCreateArticle request = new RequestCreateArticle("title", "body");
 
-
         ArticleDTO articleDTO = new ArticleDTO();
         articleDTO.setArticleId(UUID.randomUUID().toString());
         articleDTO.setTitle(request.getTitle());
