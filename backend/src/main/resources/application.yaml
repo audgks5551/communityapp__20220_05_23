@@ -3,10 +3,10 @@ server:
 
 keycloak:
   enabled: true
-  realm: springboot-test
-  auth-server-url: https://auth.kube.itseasy.site
+  realm: jin
+  auth-server-url: http://public.itseasy.site:10004
   ssl-required: external
-  resource: springboot
+  resource: springboot-test
   use-resource-role-mappings: true
   security-constraints[0]:
     authRoles[0]: user
