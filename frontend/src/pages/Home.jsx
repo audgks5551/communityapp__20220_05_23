@@ -5,7 +5,7 @@ const Home = () => {
 
     return (
         <Layout>
-            <div>Home 입니다!</div>
+            <div>Home 입니다요!!!</div>
         </Layout>
         
     );
