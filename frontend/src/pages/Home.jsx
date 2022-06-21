@@ -1,11 +1,13 @@
 import Layout from "../components/Layout";
 
+
 const Home = () => {
 
     return (
         <Layout>
-            <div>Home</div>
+            <div>Home!asdasd!!!</div>
         </Layout>
+        
     );
 }
 
