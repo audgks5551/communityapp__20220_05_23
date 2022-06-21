@@ -1,8 +1,8 @@
 {
-  "realm": "springboot-test",
-  "auth-server-url": "https://auth.kube.itseasy.site",
+  "realm": "jin",
+  "auth-server-url": "http://public.itseasy.site:10004/",
   "ssl-required": "external",
-  "resource": "login",
+  "resource": "react",
   "public-client": true,
   "confidential-port": 0
 }
