@@ -61,7 +61,7 @@ public class ArticleController {
     }
 
     @GetMapping("/test")
-    @Operation(summary = "게시글 테스트", description = "테스트하기")
+    @Operation(summary = "게시글 테스트!!", description = "테스트하기")
     public ResponseEntity articleTest() {
         return ResponseEntity.ok("test");
     }
