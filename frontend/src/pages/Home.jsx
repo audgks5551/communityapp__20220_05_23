@@ -4,7 +4,7 @@ const Home = () => {
 
     return (
         <Layout>
-            <div>Home!asdasd!!!</div>
+            <div>Home 입니다!</div>
         </Layout>
     );
 }
