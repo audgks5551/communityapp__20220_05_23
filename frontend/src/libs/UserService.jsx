@@ -39,6 +39,7 @@ const updateToken = (successCallback) =>
 
 const getNickName = () => _kc.tokenParsed.family_name + _kc.tokenParsed.given_name;
 
+
 const UserService = {
     initKeycloak,
     isLoggedIn,
@@ -49,5 +50,6 @@ const UserService = {
     getNickName,
     doSignup
 };
+
 
 export default UserService;
