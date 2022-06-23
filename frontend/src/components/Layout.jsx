@@ -1,13 +1,13 @@
 import Header from "./Header";
-import Footer from "./Footer";
+
 
 export default function Layout({ children }) {
 
     return (
         <>
-            <Header />
-            <div>{children}</div>
-            <Footer />
+            <Header/>
+            <div className="ml-[410px] min-h-screen px-56">{children}</div>
+
         </>
 
     );
