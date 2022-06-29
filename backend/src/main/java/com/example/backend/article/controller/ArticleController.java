@@ -11,13 +11,18 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.KeycloakPrincipal;
 import org.modelmapper.ModelMapper;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.PagedModel;
+import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.toedter.spring.hateoas.jsonapi.MediaTypes.JSON_API_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -60,9 +65,24 @@ public class ArticleController {
         );
     }
 
-    @GetMapping("/test")
-    @Operation(summary = "게시글 테스트!!!!", description = "테스트하기")
-    public ResponseEntity articleTest() {
-        return ResponseEntity.ok("test");
+    @GetMapping
+    @Operation(summary = "게시글 전체조회", description = "사용자가 가지고 있는 게시글 모두 출력")
+    public ResponseEntity<?> listArticle(KeycloakPrincipal user) {
+        List<? extends RepresentationModel<?>> articles = articleService.listArticlesByUserId(user.getName()).stream()
+                .map(articleDTO -> mapper.map(articleDTO, ResponseArticle.class))
+                .map(responseArticle ->
+                        JsonApiModelBuilder.jsonApiModel()
+                                .model(responseArticle)
+                                .relationship("author", new ResponseUser(user.getName()))
+                                .build())
+                .collect(Collectors.toList());
+
+        CollectionModel<? extends RepresentationModel<?>> result = PagedModel.of(articles);
+
+        return ResponseEntity.ok(
+                JsonApiModelBuilder.jsonApiModel()
+                        .model(result)
+                        .build()
+        );
     }
 }

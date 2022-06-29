@@ -9,7 +9,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class ArticleDTO {
-    private String id;
+    private Long id;
     private String articleId;
     private String title;
     private String body;

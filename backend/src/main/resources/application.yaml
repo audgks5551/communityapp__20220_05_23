@@ -10,15 +10,8 @@ keycloak:
   use-resource-role-mappings: true
   security-constraints[0]:
     authRoles[0]: user
-    authRoles[1]: admin
-    authRoles[2]: manager
     securityCollections[0]:
-      name: test1
-      patterns[0]: /test
-  security-constraints[1]:
-    authRoles[0]: user
-    securityCollections[0]:
-      name: test2
+      name: article
       patterns[0]: /api/*
   verify-token-audience: true
   confidential-port: 0

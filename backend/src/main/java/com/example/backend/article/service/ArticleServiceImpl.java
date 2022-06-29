@@ -7,8 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,5 +32,12 @@ public class ArticleServiceImpl implements ArticleService {
         ArticleDTO savedArticleDTO = mapper.map(article, ArticleDTO.class);
 
         return Optional.ofNullable(savedArticleDTO);
+    }
+
+    @Override
+    public List<ArticleDTO> listArticlesByUserId(String userId) {
+        return articleRepository.findArticlesByUserId(userId).stream()
+                .map(article -> mapper.map(article, ArticleDTO.class))
+                .collect(Collectors.toList());
     }
 }

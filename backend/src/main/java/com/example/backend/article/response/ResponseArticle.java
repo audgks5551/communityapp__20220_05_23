@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class ResponseArticle {
     @JsonApiId
     private String articleId;
-
+    private Long id;
     private String title;
     private String body;
     private LocalDateTime created;
