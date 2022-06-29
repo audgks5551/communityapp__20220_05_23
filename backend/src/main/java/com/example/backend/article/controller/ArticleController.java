@@ -5,6 +5,8 @@ import com.example.backend.article.service.ArticleService;
 import com.example.backend.article.form.CreateArticleForm;
 import com.example.backend.article.response.ResponseArticle;
 import com.example.backend.article.response.ResponseUser;
+import com.toedter.spring.hateoas.jsonapi.JsonApiError;
+import com.toedter.spring.hateoas.jsonapi.JsonApiErrors;
 import com.toedter.spring.hateoas.jsonapi.JsonApiModelBuilder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,6 +27,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.toedter.spring.hateoas.jsonapi.MediaTypes.JSON_API_VALUE;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -82,6 +86,34 @@ public class ArticleController {
         return ResponseEntity.ok(
                 JsonApiModelBuilder.jsonApiModel()
                         .model(result)
+                        .build()
+        );
+    }
+
+    /**
+     * 게시글 단건 조회
+     */
+    @GetMapping("/{articleId}")
+    @Operation(summary = "게시글 단건 조회", description = "사용자의 게시글 한 건을 articleId를 통해 조회")
+    public ResponseEntity<?> detailArticle(@PathVariable String articleId, KeycloakPrincipal user) {
+        if(articleService.verifyArticlePermission(user.getName(), articleId)) {
+            return ResponseEntity.status(FORBIDDEN).body(
+                    JsonApiErrors.create().withError(
+                            JsonApiError.create()
+                                    .withTitle("detailArticle")
+                                    .withStatus(FORBIDDEN.toString())
+                                    .withDetail("게시글 권한이 없습니다.")
+                    )
+            );
+        }
+
+        ResponseArticle result = articleService.detailArticleByArticleId(articleId)
+                .map(articleDTO -> mapper.map(articleDTO, ResponseArticle.class)).get();
+
+        return ResponseEntity.ok(
+                JsonApiModelBuilder.jsonApiModel()
+                        .model(result)
+                        .relationship("author", new ResponseUser(user.getName()))
                         .build()
         );
     }

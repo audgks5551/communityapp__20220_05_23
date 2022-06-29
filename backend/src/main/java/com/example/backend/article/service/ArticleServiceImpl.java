@@ -40,4 +40,15 @@ public class ArticleServiceImpl implements ArticleService {
                 .map(article -> mapper.map(article, ArticleDTO.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Optional<ArticleDTO> detailArticleByArticleId(String articleId) {
+        return articleRepository.findArticleByArticleId(articleId)
+                .map(article -> mapper.map(article, ArticleDTO.class));
+    }
+
+    @Override
+    public Boolean verifyArticlePermission(String userId, String articleId) {
+        return !articleRepository.existsArticleByArticleIdAndUserId(articleId, userId);
+    }
 }

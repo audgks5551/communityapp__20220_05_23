@@ -8,4 +8,7 @@ import java.util.Optional;
 public interface ArticleService {
     Optional<ArticleDTO> createArticle(ArticleDTO articleDTO);
     List<ArticleDTO> listArticlesByUserId(String userId);
+    Optional<ArticleDTO> detailArticleByArticleId(String articleId);
+
+    Boolean verifyArticlePermission(String userId, String articleId);
 }
