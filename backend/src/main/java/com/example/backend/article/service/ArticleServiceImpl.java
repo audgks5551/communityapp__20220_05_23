@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -47,8 +48,14 @@ public class ArticleServiceImpl implements ArticleService {
                 .map(article -> mapper.map(article, ArticleDTO.class));
     }
 
+
     @Override
-    public Boolean verifyArticlePermission(String userId, String articleId) {
-        return !articleRepository.existsArticleByArticleIdAndUserId(articleId, userId);
+    public Boolean verifyArticlePermission(String articleId, String userId) {
+        return articleRepository.existsArticleByArticleIdAndUserId(articleId, userId);
+    }
+
+    @Override
+    public void deleteArticleByArticleId(String articleId) {
+        articleRepository.deleteByArticleId(articleId);
     }
 }

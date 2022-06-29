@@ -10,5 +10,7 @@ public interface ArticleService {
     List<ArticleDTO> listArticlesByUserId(String userId);
     Optional<ArticleDTO> detailArticleByArticleId(String articleId);
 
-    Boolean verifyArticlePermission(String userId, String articleId);
+    Boolean verifyArticlePermission(String articleId, String userId);
+
+    void deleteArticleByArticleId(String articleId);
 }

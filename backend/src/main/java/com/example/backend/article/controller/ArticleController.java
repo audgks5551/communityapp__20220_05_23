@@ -16,6 +16,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -27,7 +28,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.toedter.spring.hateoas.jsonapi.MediaTypes.JSON_API_VALUE;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -35,7 +35,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping(
         value = "/api/articles",
         headers = "version=v1",
-        consumes = APPLICATION_JSON_VALUE,
         produces = JSON_API_VALUE)
 @RequiredArgsConstructor
 @Tag(name = "article", description = "게시글 API")
@@ -44,7 +43,7 @@ public class ArticleController {
     private final ArticleService articleService;
     private final ModelMapper mapper;
 
-    @PostMapping
+    @PostMapping(consumes = APPLICATION_JSON_VALUE)
     @Operation(summary = "게시글 생성", description = "제목(title)과 내용(body)을 이용하여 게시물을 신규 등록합니다.")
     public ResponseEntity<?> createArticle(
             @RequestBody @Valid CreateArticleForm articleForm, KeycloakPrincipal user) {
@@ -96,7 +95,7 @@ public class ArticleController {
     @GetMapping("/{articleId}")
     @Operation(summary = "게시글 단건 조회", description = "사용자의 게시글 한 건을 articleId를 통해 조회")
     public ResponseEntity<?> detailArticle(@PathVariable String articleId, KeycloakPrincipal user) {
-        if(articleService.verifyArticlePermission(user.getName(), articleId)) {
+        if(!articleService.verifyArticlePermission(articleId, user.getName())) {
             return ResponseEntity.status(FORBIDDEN).body(
                     JsonApiErrors.create().withError(
                             JsonApiError.create()
@@ -116,5 +115,26 @@ public class ArticleController {
                         .relationship("author", new ResponseUser(user.getName()))
                         .build()
         );
+    }
+
+    /**
+     * 게시글 단건 삭제
+     */
+    @DeleteMapping("/{articleId}")
+    public ResponseEntity<?> deleteArticle(@PathVariable String articleId, KeycloakPrincipal user) {
+        if(!articleService.verifyArticlePermission(articleId, user.getName())) {
+            return ResponseEntity.status(FORBIDDEN).body(
+                    JsonApiErrors.create().withError(
+                            JsonApiError.create()
+                                    .withTitle("detailArticle")
+                                    .withStatus(FORBIDDEN.toString())
+                                    .withDetail("게시글 권한이 없습니다.")
+                    )
+            );
+        }
+
+        articleService.deleteArticleByArticleId(articleId);
+
+        return ResponseEntity.noContent().build();
     }
 }
