@@ -5,7 +5,6 @@ import ArticleList from "./pages/article/list";
 import CreateArticle from "./pages/article/create";
 
 function App() {
-
     return (
         <BrowserRouter>
             <Routes>
