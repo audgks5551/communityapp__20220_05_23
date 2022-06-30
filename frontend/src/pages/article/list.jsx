@@ -4,8 +4,11 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 
+import HttpService from "../../libs/HttpService";
+
 import Layout from "../../components/Layout";
 import AreaCard from "../../components/Card";
+import {useEffect} from "react";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -16,6 +19,15 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function ArticleList() {
+
+    useEffect(() => {
+        (async () => {
+            await HttpService.getAxiosClient()
+                .get("http://localhost:8080/api/articles")
+                .then(a => console.log(a));
+        })();
+    }, []);
+
     return (
         <Layout className="flex">
             <div className="mt-20">
