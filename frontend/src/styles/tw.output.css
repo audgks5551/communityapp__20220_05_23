@@ -576,6 +576,10 @@ video {
   margin-left: 410px;
 }
 
+.ml-\[320px\] {
+  margin-left: 320px;
+}
+
 .flex {
   display: flex;
 }
@@ -613,6 +617,11 @@ video {
 .px-56 {
   padding-left: 14rem;
   padding-right: 14rem;
+}
+
+.px-\[1rem\] {
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .text-sm {

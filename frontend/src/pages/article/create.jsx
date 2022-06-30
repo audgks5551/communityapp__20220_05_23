@@ -1,9 +1,16 @@
-import Layout from "../../components/Layout";
+import React from 'react';
 
-export default function CreateArticle() {
+import Layout from "../../components/Layout";
+import Writer from "../../components/Writer";
+
+const CreateArticle = () => {
     return (
         <Layout>
-            <div>createArticle</div>
+            <div className="px-[1rem]">
+                <Writer />
+            </div>
         </Layout>
     )
 }
+
+export default CreateArticle
