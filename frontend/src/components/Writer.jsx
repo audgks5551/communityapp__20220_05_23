@@ -25,7 +25,7 @@ const Writer = () => {
     return (
         <>
             <Editor
-                ref={editorRef} // DOM 선택용 useRef
+                ref={editorRef}
                 initialValue="hello react editor world!"
                 previewStyle='vertical'
                 plugins={[colorSyntax, [codeSyntaxHighlight, { highlighter: Prism }]]}
